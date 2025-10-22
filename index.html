@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TABARNAK</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      margin: 0;
+      padding: 0;
+      color: white;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 10px 0;
+      font-size: 26px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+
+    h1:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    #controls {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      width: 90%;
+      max-width: 1000px;
+    }
+
+    .top-controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+
+    label {
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    select, input[type="checkbox"], textarea, button {
+      cursor: pointer;
+    }
+
+    #stream-settings {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      width: 100%;
+    }
+
+    .stream-setting {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .stream-setting textarea {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      border-radius: 5px;
+      padding: 5px;
+      font-size: 13px;
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .stream-setting button {
+      margin-top: 5px;
+      padding: 5px;
+      background: rgba(0, 150, 255, 0.5);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background 0.2s;
+    }
+
+    .stream-setting button:hover {
+      background: rgba(0, 150, 255, 0.8);
+    }
+
+    #video-grid {
+      flex: 1;
+      display: grid;
+      width: 100%;
+      height: 100%;
+      gap: 5px;
+    }
+
+    .video-container {
+      width: 100%;
+      height: 100%;
+      background: black;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .layout-1 { grid-template-columns: 1fr; }
+    .layout-2 { grid-template-columns: 1fr 1fr; }
+    .layout-3, .layout-4 {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    @media (max-width: 768px) {
+      .layout-2, .layout-3, .layout-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">LA CAGE AU 24</h1>
+
+  <div id="controls">
+    <div class="top-controls">
+      <label for="layout">Layout:</label>
+      <select id="layout">
+        <option value="1">1 Stream</option>
+        <option value="2">2 Streams</option>
+        <option value="3">3 Streams</option>
+        <option value="4" selected>4 Streams</option>
+      </select>
+
+      <label><input type="checkbox" id="stream1" checked> Stream 1</label>
+      <label><input type="checkbox" id="stream2" checked> Stream 2</label>
+      <label><input type="checkbox" id="stream3" checked> Stream 3</label>
+      <label><input type="checkbox" id="stream4" checked> Stream 4</label>
+    </div>
+
+    <div id="stream-settings">
+      <div class="stream-setting">
+        <label>Stream 1 Embed Code:</label>
+        <textarea id="embed1"><iframe title="NHL Network Player" marginheight="0" marginwidth="0" src="https://embedsports.top/embed/alpha/nhl-network/2" scrolling="no" allowfullscreen="yes" allow="encrypted-media; picture-in-picture;" width="100%" height="100%" frameborder="0"></iframe></textarea>
+        <button onclick="updateStream(1)">Update Stream 1</button>
+      </div>
+      <div class="stream-setting">
+        <label>Stream 2 Embed Code:</label>
+        <textarea id="embed2"><iframe title="MLB Network Player" marginheight="0" marginwidth="0" src="https://embedsports.top/embed/alpha/mlb-network/2" scrolling="no" allowfullscreen="yes" allow="encrypted-media; picture-in-picture;" width="100%" height="100%" frameborder="0"></iframe></textarea>
+        <button onclick="updateStream(2)">Update Stream 2</button>
+      </div>
+      <div class="stream-setting">
+        <label>Stream 3 Embed Code:</label>
+        <textarea id="embed3"><iframe title="NBA TV Player" marginheight="0" marginwidth="0" src="https://embedsports.top/embed/alpha/nba-tv/2" scrolling="no" allowfullscreen="yes" allow="encrypted-media; picture-in-picture;" width="100%" height="100%" frameborder="0"></iframe></textarea>
+        <button onclick="updateStream(3)">Update Stream 3</button>
+      </div>
+      <div class="stream-setting">
+        <label>Stream 4 Embed Code:</label>
+        <textarea id="embed4"><iframe title="NFL Network Player" marginheight="0" marginwidth="0" src="https://embedsports.top/embed/alpha/nfl-network/2" scrolling="no" allowfullscreen="yes" allow="encrypted-media; picture-in-picture;" width="100%" height="100%" frameborder="0"></iframe></textarea>
+        <button onclick="updateStream(4)">Update Stream 4</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="video-grid" class="layout-4">
+    <div class="video-container" id="container1">
+      <iframe title="NHL Network Player" marginheight="0" marginwidth="0" src="https://embedsports.top/embed/alpha/nhl-network/2" scrolling="no" allowfullscreen="yes" allow="encrypted-media; picture-in-picture;" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+    <div class="video-container" id="container2">
+      <iframe title="MLB Network Player" marginheight="0" marginwidth="0" src="https://embedsports.top/embed/alpha/mlb-network/2" scrolling="no" allowfullscreen="yes" allow="encrypted-media; picture-in-picture;" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+    <div class="video-container" id="container3">
+      <iframe title="NBA TV Player" marginheight="0" marginwidth="0" src="https://embedsports.top/embed/alpha/nba-tv/2" scrolling="no" allowfullscreen="yes" allow="encrypted-media; picture-in-picture;" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+    <div class="video-container" id="container4">
+      <iframe title="NFL Network Player" marginheight="0" marginwidth="0" src="https://embedsports.top/embed/alpha/nfl-network/2" scrolling="no" allowfullscreen="yes" allow="encrypted-media; picture-in-picture;" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const layoutSelect = document.getElementById('layout');
+    const videoGrid = document.getElementById('video-grid');
+    const controls = document.getElementById('controls');
+    const title = document.getElementById('title');
+    const checkboxes = [
+      document.getElementById('stream1'),
+      document.getElementById('stream2'),
+      document.getElementById('stream3'),
+      document.getElementById('stream4')
+    ];
+
+    function updateLayout() {
+      const layout = layoutSelect.value;
+      videoGrid.className = `layout-${layout}`;
+      updateVisibility();
+    }
+
+    function updateVisibility() {
+      checkboxes.forEach((cb, index) => {
+        const container = document.getElementById(`container${index + 1}`);
+        container.style.display = cb.checked ? 'block' : 'none';
+      });
+    }
+
+    function updateStream(n) {
+      const embedCode = document.getElementById(`embed${n}`).value.trim();
+      const container = document.getElementById(`container${n}`);
+      if (embedCode) {
+        container.innerHTML = embedCode; // replaces iframe with user’s embed
+      }
+    }
+
+    layoutSelect.addEventListener('change', updateLayout);
+    checkboxes.forEach(cb => cb.addEventListener('change', updateVisibility));
+
+    title.addEventListener('click', () => {
+      controls.style.display = (controls.style.display === 'none' || controls.style.display === '') ? 'flex' : 'none';
+    });
+
+    // Initialize
+    updateLayout();
+  </script>
+</body>
+</html>
