@@ -1,4 +1,192 @@
-<script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TABARNAK</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      margin: 0;
+      padding: 0;
+      color: white;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 10px 0;
+      font-size: 26px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      user-select: none;
+    }
+
+    h1:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    #controls {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: none; /* hidden by default */
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      width: 90%;
+      max-width: 800px;
+      transition: opacity 0.3s ease;
+    }
+
+    .control-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    label {
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    select, input[type="checkbox"], textarea, button {
+      cursor: pointer;
+    }
+
+    textarea {
+      width: 100%;
+      height: 80px;
+      border-radius: 6px;
+      border: none;
+      padding: 5px;
+      font-family: monospace;
+    }
+
+    button {
+      background: #1e90ff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #0077ff;
+    }
+
+    #video-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+      width: 100%;
+      height: 100%;
+    }
+
+    .video-container {
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Grid Layouts */
+    .layout-1 {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+    }
+
+    .layout-2 {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr;
+    }
+
+    .layout-3, .layout-4 {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+
+    @media (max-width: 768px) {
+      .layout-2, .layout-3, .layout-4 {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">STREAMZZZZ FREDO</h1>
+
+  <div id="controls">
+    <div class="control-row">
+      <label for="layout">Layout:</label>
+      <select id="layout">
+        <option value="1" selected>1 Stream</option>
+        <option value="2">2 Streams</option>
+        <option value="3">3 Streams</option>
+        <option value="4">4 Streams</option>
+      </select>
+
+      <label><input type="checkbox" id="stream1" checked> Stream 1</label>
+      <label><input type="checkbox" id="stream2"> Stream 2</label>
+      <label><input type="checkbox" id="stream3"> Stream 3</label>
+      <label><input type="checkbox" id="stream4"> Stream 4</label>
+    </div>
+
+    <div class="control-row">
+      <label>Stream 1 Embed:</label>
+      <textarea id="embed1"><iframe title="Los Angeles Dodgers vs Toronto Blue Jays Player" marginheight="0" marginwidth="0" src="https://embedsports.top/embed/alpha/los-angeles-dodgers-vs-toronto-blue-jays/1" scrolling="no" allowfullscreen="yes" allow="encrypted-media; picture-in-picture;" width="100%" height="100%" frameborder="0"></iframe></textarea>
+      <button onclick="updateStream(1)">Update Stream 1</button>
+    </div>
+
+    <div class="control-row">
+      <label>Stream 2 Embed:</label>
+      <textarea id="embed2"></textarea>
+      <button onclick="updateStream(2)">Update Stream 2</button>
+    </div>
+
+    <div class="control-row">
+      <label>Stream 3 Embed:</label>
+      <textarea id="embed3"></textarea>
+      <button onclick="updateStream(3)">Update Stream 3</button>
+    </div>
+
+    <div class="control-row">
+      <label>Stream 4 Embed:</label>
+      <textarea id="embed4"></textarea>
+      <button onclick="updateStream(4)">Update Stream 4</button>
+    </div>
+  </div>
+
+  <div id="video-grid" class="layout-1">
+    <div class="video-container" id="container1" style="display: block;">
+      <iframe title="Los Angeles Dodgers vs Toronto Blue Jays Player" marginheight="0" marginwidth="0" src="https://embedsports.top/embed/alpha/los-angeles-dodgers-vs-toronto-blue-jays/1" scrolling="no" allowfullscreen="yes" allow="encrypted-media; picture-in-picture;" width="100%" height="100%" frameborder="0"></iframe>
+    </div>
+    <div class="video-container" id="container2"></div>
+    <div class="video-container" id="container3"></div>
+    <div class="video-container" id="container4"></div>
+  </div>
+
+  <script>
   const layoutSelect = document.getElementById('layout');
   const videoGrid = document.getElementById('video-grid');
   const controls = document.getElementById('controls');
@@ -66,3 +254,7 @@
   // Initialize correct layout & scaling
   updateLayout();
 </script>
+
+</body>
+</html>
+
